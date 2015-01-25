@@ -4,7 +4,7 @@ Slugger
 
 This package provides a library and a protocol to create [slugs](http://en.wikipedia.org/wiki/Semantic_URL#Slug) for given strings.
 
-By default, a slug will be containing _only_ chars `a-z0-9` and the default seperator `-`.
+By default, a slug will be containing _only_ chars `A-Za-z0-9` and the default seperator `-`.
 
 ## Library
 
@@ -20,8 +20,8 @@ iex(2)> Slugger.slugify_downcase " A b C "
 iex(3)> Slugger.slugify "A cool title of a blog post"
 "A-cool-title-of-a-blog-post"
 
-iex(4)> Slugger.slugify "Wikipedia style", ?_
-"Wikipedia_style"
+iex(4)> Slugger.slugify "Wikipedia Style", ?_
+"Wikipedia_Style"
 ```
 
 ## Protocol
