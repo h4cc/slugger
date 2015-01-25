@@ -8,17 +8,19 @@ defmodule Slugger do
   Return a string in form of a slug for a given string.
   
   ## Examples
-    iex> Slugger.slugify(" Hi # there ")
-    "Hi-there"
+      
+      iex> Slugger.slugify(" Hi # there ")
+      "Hi-there"
+      
+      iex> Slugger.slugify("Über den Wölkchen draußen im Tore")
+      "Ueber-den-Woelkchen-draussen-im-Tore"
+      
+      iex> Slugger.slugify("Wikipedia Style", ?_)
+      "Wikipedia_Style"
+      
+      iex> Slugger.slugify("_Trimming_and___Removing_inside___")
+      "Trimming-and-Removing-inside"
     
-    iex> Slugger.slugify("Über den Wölkchen draußen im Tore")
-    "Ueber-den-Woelkchen-draussen-im-Tore"
-    
-    iex> Slugger.slugify("Wikipedia Style", ?_)
-    "Wikipedia_Style"
-    
-    iex> Slugger.slugify("_Trimming_and___Removing_inside___")
-    "Trimming-and-Removing-inside"
   """
   def slugify(text, separator \\ ?-) do
     text
@@ -30,17 +32,19 @@ defmodule Slugger do
   Return a string in form of a lowercase slug for a given string.
   
   ## Examples
-    iex> Slugger.slugify_downcase(" Hi # there ")
-    "hi-there"
-    
-    iex> Slugger.slugify_downcase("Über den Wölkchen draußen im Tore")
-    "ueber-den-woelkchen-draussen-im-tore"
-    
-    iex> Slugger.slugify_downcase("Wikipedia Style", ?_)
-    "wikipedia_style"
-    
-    iex> Slugger.slugify_downcase("_trimming_and___removing_inside___")
-    "trimming-and-removing-inside"
+      
+      iex> Slugger.slugify_downcase(" Hi # there ")
+      "hi-there"
+      
+      iex> Slugger.slugify_downcase("Über den Wölkchen draußen im Tore")
+      "ueber-den-woelkchen-draussen-im-tore"
+      
+      iex> Slugger.slugify_downcase("Wikipedia Style", ?_)
+      "wikipedia_style"
+      
+      iex> Slugger.slugify_downcase("_trimming_and___removing_inside___")
+      "trimming-and-removing-inside"
+      
   """
   def slugify_downcase(text, separator \\ ?-) do
     text
