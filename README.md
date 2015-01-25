@@ -1,4 +1,4 @@
-Slugger [![Build Status](https://travis-ci.org/h4cc/slugger.svg?branch=master)](https://travis-ci.org/h4cc/slugger)
+Slugger
 ===============
 [![Build Status](https://travis-ci.org/h4cc/slugger.svg?branch=master)](https://travis-ci.org/h4cc/slugger)
 
