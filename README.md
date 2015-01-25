@@ -1,4 +1,6 @@
-# Slugger
+Slugger [![Build Status](https://travis-ci.org/h4cc/slugger.svg?branch=master)](https://travis-ci.org/h4cc/slugger)
+===============
+[![Build Status](https://travis-ci.org/h4cc/slugger.svg?branch=master)](https://travis-ci.org/h4cc/slugger)
 
 This package provides a library and a protocol to create [slugs](http://en.wikipedia.org/wiki/Semantic_URL#Slug) for given strings.
 
