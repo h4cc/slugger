@@ -22,7 +22,7 @@ iex(3)> Slugger.slugify "A cool title of a blog post, wikipedia style", ?_
 ## Protocol
 
 Next to the library, a protocol is provided to ease creating slugs for own data structures.
-By default, the protocol will try to run `Slugger.slugify(Kernel.to_string(your_data))`, so if your_data implents `String.Chars` that returned string will be slugified.
+By default, the protocol will try to run `Slugger.slugify(Kernel.to_string(your_data))`, so if `your_data` implements `String.Chars`, the returned string will be slugified.
 If you want to provide a own way to create a slug, check out the following example:
 
 ```elixir
