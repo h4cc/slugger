@@ -9,14 +9,17 @@ By default, a slug will be containing _only_ chars `a-z0-9` and the default sepe
 Using the library is straightforward, check out a few examples:
 
 ```elixir
-iex(1)> Slugger.slugify " a b c "
+iex(1)> Slugger.slugify " A b C "
+"A-b-C"
+
+iex(2)> Slugger.slugify_downcase " A b C "
 "a-b-c"
 
-iex(2)> Slugger.slugify "A cool title of a blog post"
-"a-cool-title-of-a-blog-post"
+iex(3)> Slugger.slugify "A cool title of a blog post"
+"A-cool-title-of-a-blog-post"
 
-iex(3)> Slugger.slugify "A cool title of a blog post, wikipedia style", ?_
-"a_cool_title_of_a_blog_post_wikipedia_style"
+iex(4)> Slugger.slugify "Wikipedia style", ?_
+"Wikipedia_style"
 ```
 
 ## Protocol
@@ -26,16 +29,16 @@ By default, the protocol will try to run `Slugger.slugify(Kernel.to_string(your_
 If you want to provide a own way to create a slug, check out the following example:
 
 ```elixir
-iex(4)> defmodule User do
-...(4)>   defstruct name: "Julius Beckmann"
-...(4)> end
+iex(10)> defmodule User do
+...(10)>   defstruct name: "Julius Beckmann"
+...(10)> end
 
-iex(5)> defimpl Slugify, for: User do   
-...(5)>   def slugify(user), do: Slugger.slugify(user.name)
-...(5)> end
+iex(11)> defimpl Slugify, for: User do   
+...(11)>   def slugify(user), do: Slugger.slugify(user.name)
+...(11)> end
 
-iex(6)> Slugify.slugify %User{}                          
-"julius-beckmann"
+iex(12)> Slugify.slugify %User{}                          
+"Julius-Beckmann"
 ```
 
 ## Replacements

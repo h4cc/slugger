@@ -9,32 +9,49 @@ defmodule Slugger do
   
   ## Examples
     iex> Slugger.slugify(" Hi # there ")
-    "hi-there"
+    "Hi-there"
     
     iex> Slugger.slugify("Über den Wölkchen draußen im Tore")
-    "ueber-den-woelkchen-draussen-im-tore"
+    "Ueber-den-Woelkchen-draussen-im-Tore"
     
     iex> Slugger.slugify("Wikipedia Style", ?_)
-    "wikipedia_style"
+    "Wikipedia_Style"
     
-    iex> Slugger.slugify("_trimming_and___removing_inside___")
-    "trimming-and-removing-inside"
+    iex> Slugger.slugify("_Trimming_and___Removing_inside___")
+    "Trimming-and-Removing-inside"
   """
   def slugify(text, separator \\ ?-) do
     text
     |> replace_special_chars
-    |> normalize
-    |> replace_unwanted_chars(separator)
+    |> remove_unwanted_chars(separator, ~r/([^A-Za-z0-9])+/)
   end
-
-  defp normalize(text) do
+  
+  @doc """
+  Return a string in form of a lowercase slug for a given string.
+  
+  ## Examples
+    iex> Slugger.slugify_downcase(" Hi # there ")
+    "hi-there"
+    
+    iex> Slugger.slugify_downcase("Über den Wölkchen draußen im Tore")
+    "ueber-den-woelkchen-draussen-im-tore"
+    
+    iex> Slugger.slugify_downcase("Wikipedia Style", ?_)
+    "wikipedia_style"
+    
+    iex> Slugger.slugify_downcase("_trimming_and___removing_inside___")
+    "trimming-and-removing-inside"
+  """
+  def slugify_downcase(text, separator \\ ?-) do
     text
+    |> replace_special_chars
     |> String.downcase
+    |> remove_unwanted_chars(separator, ~r/([^a-z0-9])+/)
   end
-
-  defp replace_unwanted_chars(text, separator) do
+  
+  defp remove_unwanted_chars(text, separator, pattern) do
     text
-    |> String.replace(~r/([^a-z0-9])+/, to_string([separator])) 
+    |> String.replace(pattern, to_string([separator])) 
     |> String.strip(separator)
   end
   
