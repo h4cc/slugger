@@ -1,19 +1,9 @@
-language: erlang
+language: elixir
 
 otp_release:
   - 17.0
   - 17.1
   - 17.3
-   
-before_install:
-  - wget http://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc
-  - sudo apt-key add erlang_solutions.asc
-  - wget http://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
-  - sudo dpkg -i erlang-solutions_1.0_all.deb
-  - sudo apt-get update
-  - sudo apt-get -y install elixir
-  - mix local.hex --force
-  - MIX_ENV=test mix deps.get
+  
+env: MIX_ENV=test
 
-script:
-  - MIX_ENV=test mix test
