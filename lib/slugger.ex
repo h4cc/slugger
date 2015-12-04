@@ -1,4 +1,11 @@
 defmodule Slugger do
+
+  # File that contains the char replacements.
+  @replacement_file "replacements.exs"
+
+  # Telling Mix to recompile this file, if the replacement file changed.
+  @external_resource "lib/" <> @replacement_file
+
   @moduledoc """
   Calcualtes a 'slug' for a given string.
   Such a slug can be used for reading URLs or Search Engine Optimization.
@@ -66,7 +73,7 @@ defmodule Slugger do
   #-- Generated function `replace_chars` below --- 
   
   # Generate replacement functions using pattern matching.   
-  {replacements, _} = Code.eval_file("replacements.exs", __DIR__)  
+  {replacements, _} = Code.eval_file(@replacement_file, __DIR__)
   for {search, replace} <- replacements do
     defp replace_chars([unquote(search)|t]), do: unquote(replace) ++ replace_chars(t)
   end
