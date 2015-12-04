@@ -35,7 +35,10 @@ defmodule Slugger.Mixfile do
     [
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.6", only: :dev},
-      {:benchfella, "~> 0.3.0", only: :dev}
+      {:benchfella, "~> 0.3.0", only: :dev},
+
+      {:excheck, "~> 0.3", only: :test},
+      {:triq, github: "krestenkrab/triq", only: :test}
     ]
   end
 end
