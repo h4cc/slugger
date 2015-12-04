@@ -1,5 +1,8 @@
 defmodule Slugger do
 
+  # Default char separating
+  @separator_char ?-
+
   # File that contains the char replacements.
   @replacement_file "replacements.exs"
 
@@ -29,7 +32,7 @@ defmodule Slugger do
       "Trimming-and-Removing-inside"
     
   """
-  def slugify(text, separator \\ ?-) do
+  def slugify(text, separator \\ @separator_char) do
     text
     |> replace_special_chars
     |> remove_unwanted_chars(separator, ~r/([^A-Za-z0-9])+/)
@@ -53,7 +56,7 @@ defmodule Slugger do
       "trimming-and-removing-inside"
       
   """
-  def slugify_downcase(text, separator \\ ?-) do
+  def slugify_downcase(text, separator \\ @separator_char) do
     text
     |> replace_special_chars
     |> String.downcase
@@ -75,7 +78,9 @@ defmodule Slugger do
   # Generate replacement functions using pattern matching.   
   {replacements, _} = Code.eval_file(@replacement_file, __DIR__)
   for {search, replace} <- replacements do
-    defp replace_chars([unquote(search)|t]), do: unquote(replace) ++ replace_chars(t)
+    if search != @separator_char do
+      defp replace_chars([unquote(search)|t]), do: unquote(replace) ++ replace_chars(t)
+    end
   end
 
   # A unmatched char will be kept.
