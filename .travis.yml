@@ -6,6 +6,7 @@ otp_release:
   - 17.3
   - 18.0
   - 18.1
+  - 18.2
 
 env: MIX_ENV=test
 
