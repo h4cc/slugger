@@ -4,7 +4,7 @@ defmodule Slugger do
   @separator_char ?-
 
   # File that contains the char replacements.
-  @replacement_file "replacements.exs"
+  @replacement_file Application.get_env(:slugger, :replacement_file, "replacements.exs")
 
   # Telling Mix to recompile this file, if the replacement file changed.
   @external_resource "lib/" <> @replacement_file
