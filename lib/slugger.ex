@@ -32,6 +32,7 @@ defmodule Slugger do
       "Trimming-and-Removing-inside"
     
   """
+  @spec slugify(text :: any, separator :: char) :: String.t
   def slugify(text, separator \\ @separator_char) do
     text
     |> replace_special_chars
@@ -56,6 +57,7 @@ defmodule Slugger do
       "trimming-and-removing-inside"
       
   """
+  @spec slugify_downcase(text :: any, separator :: char) :: String.t
   def slugify_downcase(text, separator \\ @separator_char) do
     text
     |> replace_special_chars
@@ -63,12 +65,14 @@ defmodule Slugger do
     |> remove_unwanted_chars(separator, ~r/([^a-z0-9])+/)
   end
   
+  @spec remove_unwanted_chars(text :: String.t, separator :: char, pattern :: Regex.t) :: String.t
   defp remove_unwanted_chars(text, separator, pattern) do
     text
     |> String.replace(pattern, to_string([separator])) 
     |> String.strip(separator)
   end
   
+  @spec replace_special_chars(text :: any) :: String.t
   defp replace_special_chars(text) do
     text |> to_char_list |> replace_chars |> to_string
   end
@@ -79,14 +83,17 @@ defmodule Slugger do
   {replacements, _} = Code.eval_file(@replacement_file, __DIR__)
   for {search, replace} <- replacements do
     if search != @separator_char do
+      @spec replace_chars(char_list) :: char_list
       defp replace_chars([unquote(search)|t]), do: unquote(replace) ++ replace_chars(t)
     end
   end
 
   # A unmatched char will be kept.
+  @spec replace_chars(char_list) :: char_list
   defp replace_chars([h|t]), do: [h] ++ replace_chars(t)
 
   # String has come to an end, stop recursion here.
+  @spec replace_chars([]) :: []
   defp replace_chars([]), do: []
 
 end
