@@ -59,6 +59,7 @@ defmodule SluggerTest do
     assert Slugger.slugify_downcase("   A B  C  ", ?_) == "a_b_c"
   end
 
+
   #--- Application config
 
   test "config defaults" do
@@ -68,6 +69,25 @@ defmodule SluggerTest do
     assert Application.get_env(:slugger, :replacement_file) == "replacements.exs"
 
     assert Slugger.slugify("a ü") == "a-ue"
+
+  #--- truncate_slug()
+
+  test "don't truncate short enough slugs" do
+    assert Slugger.truncate_slug("a-b-c", 10) == "a-b-c"
+    assert Slugger.truncate_slug("a-b-c", 5) == "a-b-c"
+  end
+
+  test "truncate before last separator" do
+    assert Slugger.truncate_slug("abc-def", 6) == "abc"
+    assert Slugger.truncate_slug("abc_def", 6, ?_) == "abc"
+  end
+
+  test "don't truncate unimpaired last word" do
+    assert Slugger.truncate_slug("abc-def-ghi", 7) == "abc-def"
+  end
+
+  test "truncate hard if unavoidable" do
+    assert Slugger.truncate_slug("abcdefg", 3) == "abc"
   end
 
 end

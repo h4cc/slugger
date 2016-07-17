@@ -89,4 +89,41 @@ defmodule Slugger do
   # String has come to an end, stop recursion here.
   defp replace_chars([]), do: []
 
+  @doc """
+  Truncate a slug at a given maximum length.
+
+  Tries to cut off before the last separator instead of breaking inside of a word.
+
+  ## Examples
+    iex> Slugger.truncate_slug("hello-world", 7)
+    "hello"
+
+    iex> Slugger.truncate_slug("hello-world", 20)
+    "hello-world"
+  """
+  def truncate_slug(slug, max_length, separator \\ @separator_char) do
+    if String.length(slug) <= max_length do
+      slug
+    else
+      slug
+      |> to_charlist
+      |> Enum.take(max_length+1)
+      |> beautify_truncation(separator)
+      |> to_string
+    end
+  end
+
+  defp beautify_truncation(slug, separator) do
+    unless Enum.any?(slug, &(&1 == separator)) do
+      slug
+      |> Enum.take(length(slug)-1)
+    else
+      slug
+      |> Enum.reverse
+      |> Enum.drop_while(&(&1 != separator))
+      |> Enum.drop(1)
+      |> Enum.reverse
+    end
+  end
+
 end
