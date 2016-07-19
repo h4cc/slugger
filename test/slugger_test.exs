@@ -79,7 +79,7 @@ defmodule SluggerTest do
 
   test "truncate before last separator" do
     assert Slugger.truncate_slug("abc-def", 6) == "abc"
-    assert Slugger.truncate_slug("abc_def", 6, ?_) == "abc"
+    assert Slugger.truncate_slug("abc_def", 6, [separator: ?_]) == "abc"
   end
 
   test "don't truncate unimpaired last word" do
@@ -88,6 +88,11 @@ defmodule SluggerTest do
 
   test "truncate hard if unavoidable" do
     assert Slugger.truncate_slug("abcdefg", 3) == "abc"
+  end
+
+  test "truncate hard if option is set" do
+    assert Slugger.truncate_slug("abc-def", 5, [hard: true]) == "abc-d"
+    assert Slugger.truncate_slug("abc_def", 5, [separator: ?_, hard: true]) == "abc_d"
   end
 
 end

@@ -9,6 +9,8 @@ defmodule Slugger do
   # Telling Mix to recompile this file, if the replacement file changed.
   @external_resource "lib/" <> @replacement_file
 
+  @truncation_defaults [separator: @separator_char, hard: false]
+
   @moduledoc """
   Calcualtes a 'slug' for a given string.
   Such a slug can be used for reading URLs or Search Engine Optimization.
@@ -101,29 +103,29 @@ defmodule Slugger do
     iex> Slugger.truncate_slug("hello-world", 20)
     "hello-world"
   """
-  def truncate_slug(slug, max_length, separator \\ @separator_char) do
-    if String.length(slug) <= max_length do
-      slug
-    else
-      slug
-      |> to_charlist
-      |> Enum.take(max_length+1)
-      |> beautify_truncation(separator)
-      |> to_string
-    end
+  def truncate_slug(slug, max_length, options \\ []) do
+    options = Keyword.merge(@truncation_defaults, options)
+    truncate_charlist(to_charlist(slug), max_length, options)
+    |> to_string
   end
 
-  defp beautify_truncation(slug, separator) do
-    unless Enum.any?(slug, &(&1 == separator)) do
+  defp truncate_charlist(slug, max_length, _)
+  when length(slug) <= max_length do
       slug
-      |> Enum.take(length(slug)-1)
-    else
-      slug
-      |> Enum.reverse
-      |> Enum.drop_while(&(&1 != separator))
-      |> Enum.drop(1)
-      |> Enum.reverse
-    end
   end
 
+  defp truncate_charlist(slug, max_length, options) do
+    cond do
+      slug
+      |> Enum.take(max_length)
+      |> Enum.any?(&(&1 == options[:separator])) == false or options[:hard]->
+        Enum.take(slug, max_length)
+      true ->
+        slug
+        |> Enum.reverse
+        |> Enum.drop_while(&(&1 != options[:separator]))
+        |> Enum.drop(1)
+        |> Enum.reverse
+    end
+  end
 end
