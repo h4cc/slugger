@@ -7,5 +7,7 @@ otp_release:
   - 18.0
   - 18.1
 
-env: MIX_ENV=test
+env:
+  - MIX_ENV=test
+  - HEX_UNSAFE_HTTPS=1
 
