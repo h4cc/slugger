@@ -38,7 +38,6 @@ defmodule Slugger.Mixfile do
       {:benchfella, "~> 0.3.0", only: :dev},
 
       {:excheck, "~> 0.3", only: :test},
-      {:triq, github: "krestenkrab/triq", only: :test}
     ]
   end
 end
