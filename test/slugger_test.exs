@@ -59,4 +59,15 @@ defmodule SluggerTest do
     assert Slugger.slugify_downcase("   A B  C  ", ?_) == "a_b_c"
   end
 
+  #--- Application config
+
+  test "config defaults" do
+    Application.load(:slugger)
+
+    assert Application.get_env(:slugger, :separator_char) == ?-
+    assert Application.get_env(:slugger, :replacement_file) == "replacements.exs"
+
+    assert Slugger.slugify("a ü") == "a-ue"
+  end
+
 end

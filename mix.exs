@@ -28,7 +28,14 @@ defmodule Slugger.Mixfile do
   end
 
   def application do
-    [applications: []]
+    [
+      applications: [],
+      env: [
+        # Change these values using `config :slugger, separator_char: ?-` in your config.exs file.
+        replacement_file: "replacements.exs",
+        separator_char: ?-,
+      ],
+    ]
   end
 
   defp deps() do
@@ -36,8 +43,6 @@ defmodule Slugger.Mixfile do
       {:earmark, "~> 0.1.17", only: :dev},
       {:ex_doc, "~> 0.6", only: :dev},
       {:benchfella, "~> 0.3.0", only: :dev},
-
-      {:excheck, "~> 0.3", only: :test},
     ]
   end
 end

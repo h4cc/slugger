@@ -1,6 +1,5 @@
 defmodule SlugifyTest do
   use ExUnit.Case
-  doctest Slugify
 
   test "using protocol fallback to any" do
     assert Slugify.slugify(42) == "42"

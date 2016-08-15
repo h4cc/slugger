@@ -6,6 +6,30 @@ This package provides a library and a protocol to create [slugs](http://en.wikip
 
 By default, a slug will be containing _only_ chars `A-Za-z0-9` and the default seperator `-`.
 
+## Installation
+
+Add `slugger` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:slugger, "~> 0.1.0"},
+  ]
+end
+```
+
+## Configuration
+
+The following options can be set in your `config.exs` and will be used at __next compile__!
+
+```elixir
+# Char used as separator between words.
+config :slugger, separator_char: ?-
+
+# Path to the file containing replacements.
+config :slugger, replacement_file: "replacements.exs"
+```
+
 ## Library
 
 Using the library is straightforward, check out a few examples:
@@ -47,4 +71,4 @@ iex(12)> Slugify.slugify %User{}
 
 Special chars like `äöüéáÁÉ` will be replaced by rules given in the file [lib/replacements.exs](lib/replacements.exs).
 
-Modify that file if you need have own replacement rules and __recompile__.
+Copy that file if you need have own replacement rules, change the config value and __recompile__.

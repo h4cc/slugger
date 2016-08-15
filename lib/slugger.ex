@@ -1,7 +1,7 @@
 defmodule Slugger do
 
   # Default char separating
-  @separator_char ?-
+  @separator_char Application.get_env(:slugger, :separator_char, ?-)
 
   # File that contains the char replacements.
   @replacement_file Application.get_env(:slugger, :replacement_file, "replacements.exs")
