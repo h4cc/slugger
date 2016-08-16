@@ -116,12 +116,15 @@ defmodule Slugger do
 
   defp truncate_charlist(slug, max_length, options) do
     cond do
+      options[:hard] ->
+        Enum.take(slug, max_length)
       slug
       |> Enum.take(max_length)
-      |> Enum.any?(&(&1 == options[:separator])) == false or options[:hard]->
+      |> Enum.any?(&(&1 == options[:separator])) == false ->
         Enum.take(slug, max_length)
       true ->
         slug
+        |> Enum.take(max_length + 1)
         |> Enum.reverse
         |> Enum.drop_while(&(&1 != options[:separator]))
         |> Enum.drop(1)

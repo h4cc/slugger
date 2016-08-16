@@ -69,6 +69,7 @@ defmodule SluggerTest do
     assert Application.get_env(:slugger, :replacement_file) == "replacements.exs"
 
     assert Slugger.slugify("a ü") == "a-ue"
+  end
 
   #--- truncate_slug()
 
@@ -76,9 +77,8 @@ defmodule SluggerTest do
     assert Slugger.truncate_slug("a-b-c", 10) == "a-b-c"
     assert Slugger.truncate_slug("a-b-c", 5) == "a-b-c"
   end
-
-  test "truncate before last separator" do
-    assert Slugger.truncate_slug("abc-def", 6) == "abc"
+  test "truncate before separator that is in range" do
+    assert Slugger.truncate_slug("abc-def-ghi-jkl-mno-pqr", 8) == "abc-def"
     assert Slugger.truncate_slug("abc_def", 6, [separator: ?_]) == "abc"
   end
 
