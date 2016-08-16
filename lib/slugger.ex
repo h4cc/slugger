@@ -105,7 +105,7 @@ defmodule Slugger do
   """
   def truncate_slug(slug, max_length, options \\ []) do
     options = Keyword.merge(@truncation_defaults, options)
-    truncate_charlist(to_charlist(slug), max_length, options)
+    truncate_charlist(to_char_list(slug), max_length, options)
     |> to_string
   end
 
