@@ -94,41 +94,47 @@ defmodule Slugger do
   @doc """
   Truncate a slug at a given maximum length.
 
-  Tries to cut off before the last separator instead of breaking inside of a word.
+  Tries to cut off before the last separator instead of breaking inside of a word,
+  unless you set the `hard` option to true.
 
   ## Examples
     iex> Slugger.truncate_slug("hello-world", 7)
     "hello"
 
-    iex> Slugger.truncate_slug("hello-world", 20)
-    "hello-world"
+    iex> Slugger.truncate_slug("hello-world", 7, [hard: true])
+    "hello-w"
   """
   def truncate_slug(slug, max_length, options \\ []) do
     options = Keyword.merge(@truncation_defaults, options)
-    truncate_charlist(to_char_list(slug), max_length, options)
+    slug
+    |> to_char_list
+    |> truncate_charlist(max_length, {options[:hard], options[:separator]})
     |> to_string
   end
 
-  defp truncate_charlist(slug, max_length, _)
-  when length(slug) <= max_length do
-      slug
+  defp truncate_charlist(slug, max_length, _) when length(slug) <= max_length,
+  do: slug
+
+  defp truncate_charlist(slug, max_length, {true, _}) do
+    slug |> Enum.take(max_length)
   end
 
-  defp truncate_charlist(slug, max_length, options) do
-    cond do
-      options[:hard] ->
-        Enum.take(slug, max_length)
+  defp truncate_charlist(slug, max_length, {_, separator}) do
+    if has_separator(slug, max_length, separator) do
       slug
-      |> Enum.take(max_length)
-      |> Enum.any?(&(&1 == options[:separator])) == false ->
-        Enum.take(slug, max_length)
-      true ->
-        slug
-        |> Enum.take(max_length + 1)
-        |> Enum.reverse
-        |> Enum.drop_while(&(&1 != options[:separator]))
-        |> Enum.drop(1)
-        |> Enum.reverse
+      |> Enum.take(max_length + 1)
+      |> Enum.reverse
+      |> Enum.drop_while(&(&1 != separator))
+      |> Enum.drop(1)
+      |> Enum.reverse
+    else
+      slug |> Enum.take(max_length)
     end
+  end
+
+  defp has_separator(slug, range, separator) do
+      slug
+      |> Enum.take(range)
+      |> Enum.any?(&(&1 == separator))
   end
 end
