@@ -29,7 +29,7 @@ The following options can be set in your `config.exs` and will be used at __next
 config :slugger, separator_char: ?-
 
 # Path to the file containing replacements.
-config :slugger, replacement_file: "replacements.exs"
+config :slugger, replacement_file: "lib/replacements.exs"
 ```
 
 ## Library

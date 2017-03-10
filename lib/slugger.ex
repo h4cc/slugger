@@ -4,10 +4,10 @@ defmodule Slugger do
   @separator_char Application.get_env(:slugger, :separator_char, ?-)
 
   # File that contains the char replacements.
-  @replacement_file Application.get_env(:slugger, :replacement_file, "replacements.exs")
+  @replacement_file Application.get_env(:slugger, :replacement_file, "lib/replacements.exs")
 
   # Telling Mix to recompile this file, if the replacement file changed.
-  @external_resource "lib/" <> @replacement_file
+  @external_resource @replacement_file
 
   @moduledoc """
   Calcualtes a 'slug' for a given string.
@@ -79,21 +79,19 @@ defmodule Slugger do
   
   #-- Generated function `replace_chars` below --- 
   
-  # Generate replacement functions using pattern matching.   
-  {replacements, _} = Code.eval_file(@replacement_file, __DIR__)
+  # Generate replacement functions using pattern matching.
+  @spec replace_chars(char_list) :: char_list
+  {replacements, _} = Code.eval_file(@replacement_file)
   for {search, replace} <- replacements do
     if search != @separator_char do
-      @spec replace_chars(char_list) :: char_list
       defp replace_chars([unquote(search)|t]), do: unquote(replace) ++ replace_chars(t)
     end
   end
 
   # A unmatched char will be kept.
-  @spec replace_chars(char_list) :: char_list
   defp replace_chars([h|t]), do: [h] ++ replace_chars(t)
 
   # String has come to an end, stop recursion here.
-  @spec replace_chars([]) :: []
   defp replace_chars([]), do: []
 
 end
