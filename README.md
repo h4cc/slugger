@@ -6,6 +6,8 @@ This package provides a library and a protocol to create [slugs](http://en.wikip
 
 By default, a slug will be containing _only_ chars `A-Za-z0-9` and the default seperator `-`.
 
+Want to use this library with Ecto? Have a look at [sobolevn/ecto_autoslug_field](https://github.com/sobolevn/ecto_autoslug_field).
+
 ## Installation
 
 Add `slugger` to your list of dependencies in `mix.exs`:
