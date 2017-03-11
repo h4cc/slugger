@@ -4,10 +4,10 @@ defmodule Slugger do
   @separator_char Application.get_env(:slugger, :separator_char, ?-)
 
   # File that contains the char replacements.
-  @replacement_file Application.get_env(:slugger, :replacement_file, "replacements.exs")
+  @replacement_file Application.get_env(:slugger, :replacement_file, "lib/replacements.exs")
 
   # Telling Mix to recompile this file, if the replacement file changed.
-  @external_resource "lib/" <> @replacement_file
+  @external_resource @replacement_file
 
   @truncation_defaults [separator: @separator_char, hard: false]
 
@@ -34,6 +34,7 @@ defmodule Slugger do
       "Trimming-and-Removing-inside"
     
   """
+  @spec slugify(text :: any, separator :: char) :: String.t
   def slugify(text, separator \\ @separator_char) do
     text
     |> replace_special_chars
@@ -58,6 +59,7 @@ defmodule Slugger do
       "trimming-and-removing-inside"
       
   """
+  @spec slugify_downcase(text :: any, separator :: char) :: String.t
   def slugify_downcase(text, separator \\ @separator_char) do
     text
     |> replace_special_chars
@@ -65,20 +67,23 @@ defmodule Slugger do
     |> remove_unwanted_chars(separator, ~r/([^a-z0-9])+/)
   end
   
+  @spec remove_unwanted_chars(text :: String.t, separator :: char, pattern :: Regex.t) :: String.t
   defp remove_unwanted_chars(text, separator, pattern) do
     text
     |> String.replace(pattern, to_string([separator])) 
     |> String.strip(separator)
   end
   
+  @spec replace_special_chars(text :: any) :: String.t
   defp replace_special_chars(text) do
     text |> to_char_list |> replace_chars |> to_string
   end
   
   #-- Generated function `replace_chars` below --- 
   
-  # Generate replacement functions using pattern matching.   
-  {replacements, _} = Code.eval_file(@replacement_file, __DIR__)
+  # Generate replacement functions using pattern matching.
+  @spec replace_chars(char_list) :: char_list
+  {replacements, _} = Code.eval_file(@replacement_file)
   for {search, replace} <- replacements do
     if search != @separator_char do
       defp replace_chars([unquote(search)|t]), do: unquote(replace) ++ replace_chars(t)

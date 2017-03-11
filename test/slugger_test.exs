@@ -26,7 +26,7 @@ defmodule SluggerTest do
   end
   
   test "replace multiple seperator inside and outside" do
-	assert Slugger.slugify("--a--b c - - - ") == "a-b-c"
+    assert Slugger.slugify("--a--b c - - - ") == "a-b-c"
   end
 
   test "replace special char with expected string" do
@@ -59,6 +59,17 @@ defmodule SluggerTest do
     assert Slugger.slugify_downcase("   A B  C  ", ?_) == "a_b_c"
   end
 
+  #--- Naughty strings
+
+  test "naughty strings" do
+    "test/big-list-of-naughty-strings/blns.json"
+    |> File.read!
+    |> Poison.decode!
+    |> Enum.each(fn(string) ->
+      assert is_binary Slugger.slugify(string)
+      assert is_binary Slugger.slugify_downcase(string)
+    end)
+  end
 
   #--- Application config
 
@@ -66,7 +77,7 @@ defmodule SluggerTest do
     Application.load(:slugger)
 
     assert Application.get_env(:slugger, :separator_char) == ?-
-    assert Application.get_env(:slugger, :replacement_file) == "replacements.exs"
+    assert Application.get_env(:slugger, :replacement_file) == "lib/replacements.exs"
 
     assert Slugger.slugify("a ü") == "a-ue"
   end

@@ -7,9 +7,9 @@ defmodule Slugger.Mixfile do
      source_url: "https://github.com/h4cc/slugger",
      version: "0.1.0",
      elixir: "~> 1.0",
-     description: description,
-     package: package,
-     deps: deps]
+     description: description(),
+     package: package(),
+     deps: deps()]
   end
 
   defp description do
@@ -32,7 +32,7 @@ defmodule Slugger.Mixfile do
       applications: [],
       env: [
         # Change these values using `config :slugger, separator_char: ?-` in your config.exs file.
-        replacement_file: "replacements.exs",
+        replacement_file: "lib/replacements.exs",
         separator_char: ?-,
       ],
     ]
@@ -43,6 +43,8 @@ defmodule Slugger.Mixfile do
       {:earmark, "~> 0.1.17", only: :dev},
       {:ex_doc, "~> 0.6", only: :dev},
       {:benchfella, "~> 0.3.0", only: :dev},
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:poison, "~> 3.0", only: [:dev, :test]},
     ]
   end
 end
