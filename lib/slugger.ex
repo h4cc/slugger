@@ -124,7 +124,9 @@ defmodule Slugger do
     iex> Slugger.truncate_slug("hello-world", 7, [hard: true])
     "hello-w"
   """
-  def truncate_slug(slug, max_length, options \\ []) do
+  def truncate_slug(slug, max_length, options \\ [])
+  def truncate_slug(slug, max_length, options) when max_length < 1, do: ""
+  def truncate_slug(slug, max_length, options) do
     options = Keyword.merge(@truncation_defaults, options)
     slug
     |> to_char_list

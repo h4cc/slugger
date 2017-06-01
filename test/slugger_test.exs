@@ -87,6 +87,16 @@ defmodule SluggerTest do
   test "don't truncate short enough slugs" do
     assert Slugger.truncate_slug("a-b-c", 10) == "a-b-c"
     assert Slugger.truncate_slug("a-b-c", 5) == "a-b-c"
+    assert Slugger.truncate_slug("a-b-c", 4) == "a-b"
+    assert Slugger.truncate_slug("a-b-c", 3) == "a-b"
+    assert Slugger.truncate_slug("a-b-c", 2) == "a"
+    assert Slugger.truncate_slug("a-b-c", 1) == "a"
+    assert Slugger.truncate_slug("a-b-c", 0) == ""
+    assert Slugger.truncate_slug("a-b-c", -1) == ""
+    assert Slugger.truncate_slug("a-b-c", -2) == ""
+    assert Slugger.truncate_slug("a-b-c", -3) == ""
+    assert Slugger.truncate_slug("a-b-c", -4) == ""
+    assert Slugger.truncate_slug("a-b-c", -5) == ""
   end
   test "truncate before separator that is in range" do
     assert Slugger.truncate_slug("abc-def-ghi-jkl-mno-pqr", 8) == "abc-def"
