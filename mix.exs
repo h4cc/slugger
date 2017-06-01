@@ -40,8 +40,8 @@ defmodule Slugger.Mixfile do
 
   defp deps() do
     [
-      {:earmark, "~> 0.1.17", only: :dev},
-      {:ex_doc, "~> 0.6", only: :dev},
+      {:earmark, "~> 1.2.2", only: :dev},
+      {:ex_doc, "~> 0.16.1", only: :dev},
       {:benchfella, "~> 0.3.0", only: :dev},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
       {:poison, "~> 3.0", only: [:dev, :test]},
