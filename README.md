@@ -48,6 +48,9 @@ iex(3)> Slugger.slugify "A cool title of a blog post"
 
 iex(4)> Slugger.slugify "Wikipedia Style", ?_
 "Wikipedia_Style"
+
+iex(5)> Slugger.truncate_slug "A-to-long-slug-that-should-be-truncated", 16
+"A-to-long-slug"
 ```
 
 ## Protocol

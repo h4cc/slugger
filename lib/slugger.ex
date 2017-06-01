@@ -9,6 +9,8 @@ defmodule Slugger do
   # Telling Mix to recompile this file, if the replacement file changed.
   @external_resource @replacement_file
 
+  @truncation_defaults [separator: @separator_char, hard: false]
+
   @moduledoc """
   Calcualtes a 'slug' for a given string.
   Such a slug can be used for reading URLs or Search Engine Optimization.
@@ -94,4 +96,50 @@ defmodule Slugger do
   # String has come to an end, stop recursion here.
   defp replace_chars([]), do: []
 
+  @doc """
+  Truncate a slug at a given maximum length.
+
+  Tries to cut off before the last separator instead of breaking inside of a word,
+  unless you set the `hard` option to true.
+
+  ## Examples
+    iex> Slugger.truncate_slug("hello-world", 7)
+    "hello"
+
+    iex> Slugger.truncate_slug("hello-world", 7, [hard: true])
+    "hello-w"
+  """
+  def truncate_slug(slug, max_length, options \\ []) do
+    options = Keyword.merge(@truncation_defaults, options)
+    slug
+    |> to_char_list
+    |> truncate_charlist(max_length, {options[:hard], options[:separator]})
+    |> to_string
+  end
+
+  defp truncate_charlist(slug, max_length, _) when length(slug) <= max_length,
+  do: slug
+
+  defp truncate_charlist(slug, max_length, {true, _}) do
+    slug |> Enum.take(max_length)
+  end
+
+  defp truncate_charlist(slug, max_length, {_, separator}) do
+    if has_separator(slug, max_length, separator) do
+      slug
+      |> Enum.take(max_length + 1)
+      |> Enum.reverse
+      |> Enum.drop_while(&(&1 != separator))
+      |> Enum.drop(1)
+      |> Enum.reverse
+    else
+      slug |> Enum.take(max_length)
+    end
+  end
+
+  defp has_separator(slug, range, separator) do
+      slug
+      |> Enum.take(range)
+      |> Enum.any?(&(&1 == separator))
+  end
 end

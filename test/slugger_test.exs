@@ -26,7 +26,7 @@ defmodule SluggerTest do
   end
   
   test "replace multiple seperator inside and outside" do
-	assert Slugger.slugify("--a--b c - - - ") == "a-b-c"
+    assert Slugger.slugify("--a--b c - - - ") == "a-b-c"
   end
 
   test "replace special char with expected string" do
@@ -80,6 +80,30 @@ defmodule SluggerTest do
     assert Application.get_env(:slugger, :replacement_file) == "lib/replacements.exs"
 
     assert Slugger.slugify("a ü") == "a-ue"
+  end
+
+  #--- truncate_slug()
+
+  test "don't truncate short enough slugs" do
+    assert Slugger.truncate_slug("a-b-c", 10) == "a-b-c"
+    assert Slugger.truncate_slug("a-b-c", 5) == "a-b-c"
+  end
+  test "truncate before separator that is in range" do
+    assert Slugger.truncate_slug("abc-def-ghi-jkl-mno-pqr", 8) == "abc-def"
+    assert Slugger.truncate_slug("abc_def", 6, [separator: ?_]) == "abc"
+  end
+
+  test "don't truncate unimpaired last word" do
+    assert Slugger.truncate_slug("abc-def-ghi", 7) == "abc-def"
+  end
+
+  test "truncate hard if unavoidable" do
+    assert Slugger.truncate_slug("abcdefg", 3) == "abc"
+  end
+
+  test "truncate hard if option is set" do
+    assert Slugger.truncate_slug("abc-def", 5, [hard: true]) == "abc-d"
+    assert Slugger.truncate_slug("abc_def", 5, [separator: ?_, hard: true]) == "abc_d"
   end
 
 end
