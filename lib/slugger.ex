@@ -84,8 +84,23 @@ defmodule Slugger do
   # Generate replacement functions using pattern matching.
   @spec replace_chars(char_list) :: char_list
   {replacements, _} = Code.eval_file(@replacement_file)
-  for {search, replace} <- replacements do
+
+  replacements_by_search =  replacements
+  |> Enum.group_by(fn({search, _}) -> search end, fn({_, replace}) -> replace end)
+  |> Enum.into([])
+
+  # Output a warning, if a replacement is duplicated.
+  replacements_by_search
+  |> Enum.each(fn({search, values}) ->
+    if length(values) > 1 do
+      IO.puts("Slugger warning: duplicate replacement from #{inspect <<search::utf8>>} to #{inspect values}")
+    end
+  end)
+
+  # Create replacement
+  for {search, replaces} <- replacements_by_search do
     if search != @separator_char do
+      replace = hd(replaces)
       defp replace_chars([unquote(search)|t]), do: unquote(replace) ++ replace_chars(t)
     end
   end
