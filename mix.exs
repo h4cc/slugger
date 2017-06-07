@@ -5,8 +5,8 @@ defmodule Slugger.Mixfile do
     [app: :slugger,
      name: "Slugger",
      source_url: "https://github.com/h4cc/slugger",
-     version: "0.1.0",
-     elixir: "~> 1.0",
+     version: "0.2.0",
+     elixir: "~> 1.3",
      description: description(),
      package: package(),
      deps: deps()]
@@ -20,7 +20,7 @@ defmodule Slugger.Mixfile do
 
   defp package do
     [# These are the default files included in the package
-     files: ["config", "test", "lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+     files: ["config", "test", "lib", "priv", "bench", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
      maintainers: ["Julius Beckmann"],
      licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/h4cc/slugger",
