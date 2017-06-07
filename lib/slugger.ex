@@ -125,7 +125,7 @@ defmodule Slugger do
     "hello-w"
   """
   def truncate_slug(slug, max_length, options \\ [])
-  def truncate_slug(slug, max_length, options) when max_length < 1, do: ""
+  def truncate_slug(_slug, max_length, _options) when max_length < 1, do: ""
   def truncate_slug(slug, max_length, options) do
     options = Keyword.merge(@truncation_defaults, options)
     slug
