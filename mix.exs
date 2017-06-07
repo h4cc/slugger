@@ -20,7 +20,7 @@ defmodule Slugger.Mixfile do
 
   defp package do
     [# These are the default files included in the package
-     files: ["config", "test", "lib", "priv", "bench", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+     files: ["config", "test", "lib", "bench", "mix.exs", "README*", "LICENSE*"],
      maintainers: ["Julius Beckmann"],
      licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/h4cc/slugger",
