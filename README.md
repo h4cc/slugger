@@ -15,7 +15,7 @@ Add `slugger` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:slugger, "~> 0.2"},
+    {:slugger, "~> 0.3"},
   ]
 end
 ```
