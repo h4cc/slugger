@@ -69,9 +69,10 @@ defmodule Slugger do
 
   @spec remove_unwanted_chars(text :: String.t, separator :: char, pattern :: Regex.t) :: String.t
   defp remove_unwanted_chars(text, separator, pattern) do
+    sep_binary = to_string([separator])
     text
-    |> String.replace(pattern, to_string([separator]))
-    |> String.strip(separator)
+    |> String.replace(pattern, sep_binary)
+    |> String.trim(sep_binary)
   end
 
   @spec replace_special_chars(text :: any) :: String.t

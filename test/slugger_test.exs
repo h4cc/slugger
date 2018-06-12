@@ -20,6 +20,10 @@ defmodule SluggerTest do
     assert Slugger.slugify(" \n  \t \n ABC \n  \t \n ") == "ABC"
   end
 
+  test "removing space at ending and ending with korean chars" do
+    assert Slugger.slugify(" \n  \t \n ㅈㅓㅇㅅㅜㅇㅕㄴ for 정수연 \n  \t \n ") == "ㅈㅓㅇㅅㅜㅇㅕㄴ-for-정수연"
+  end
+
   test "replace whitespace inside with seperator" do
     assert Slugger.slugify("   A B  C  ") == "A-B-C"
     assert Slugger.slugify("   A B  C  ", ?_) == "A_B_C"
