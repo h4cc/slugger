@@ -37,6 +37,7 @@ defmodule Slugger do
   @spec slugify(text :: any, separator :: char) :: String.t
   def slugify(text, separator \\ @separator_char) do
     text
+    |> handle_possessives
     |> replace_special_chars
     |> remove_unwanted_chars(separator, ~r/([^A-Za-z0-9가-힣])+/)
   end
@@ -62,6 +63,7 @@ defmodule Slugger do
   @spec slugify_downcase(text :: any, separator :: char) :: String.t
   def slugify_downcase(text, separator \\ @separator_char) do
     text
+    |> handle_possessives
     |> replace_special_chars
     |> String.downcase
     |> remove_unwanted_chars(separator, ~r/([^a-z0-9가-힣])+/)
@@ -160,4 +162,10 @@ defmodule Slugger do
       |> Enum.take(range)
       |> Enum.any?(&(&1 == separator))
   end
+
+  # Handle "Sheep's Milk" so it will be "sheeps-milk" instead of "sheep-s-milk"
+  defp handle_possessives(text) do
+    String.replace(text, ~r/['’]s/u, "s")
+  end
+
 end

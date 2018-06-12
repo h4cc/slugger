@@ -39,7 +39,11 @@ defmodule SluggerTest do
     assert Slugger.slugify("baü") == "baue"
     assert Slugger.slugify("büaü") == "bueaue"
   end
-  
+
+  test "removing space between possessives" do
+    assert Slugger.slugify("Sheep's Milk") == "Sheeps-Milk"
+  end
+
   #--- slugify_downcase()
   
   test "string to lower" do
@@ -61,6 +65,10 @@ defmodule SluggerTest do
   test "replace whitespace inside with seperator lowercase" do
     assert Slugger.slugify_downcase("   A B  C  ") == "a-b-c"
     assert Slugger.slugify_downcase("   A B  C  ", ?_) == "a_b_c"
+  end
+
+  test "removing space between possessives lowercase" do
+    assert Slugger.slugify_downcase("Sheep's Milk") == "sheeps-milk"
   end
 
   #--- Naughty strings
