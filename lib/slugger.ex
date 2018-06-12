@@ -38,7 +38,7 @@ defmodule Slugger do
   def slugify(text, separator \\ @separator_char) do
     text
     |> replace_special_chars
-    |> remove_unwanted_chars(separator, ~r/([^A-Za-z0-9])+/)
+    |> remove_unwanted_chars(separator, ~r/([^A-Za-z0-9가-힣])+/)
   end
 
   @doc """
@@ -64,7 +64,7 @@ defmodule Slugger do
     text
     |> replace_special_chars
     |> String.downcase
-    |> remove_unwanted_chars(separator, ~r/([^a-z0-9])+/)
+    |> remove_unwanted_chars(separator, ~r/([^a-z0-9가-힣])+/)
   end
 
   @spec remove_unwanted_chars(text :: String.t, separator :: char, pattern :: Regex.t) :: String.t
