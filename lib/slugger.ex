@@ -39,7 +39,7 @@ defmodule Slugger do
     text
     |> handle_possessives
     |> replace_special_chars
-    |> remove_unwanted_chars(separator, ~r/([^A-Za-z0-9가-힣])+/)
+    |> remove_unwanted_chars(separator, ~r/([^A-Za-z0-9가-힣])+/u)
   end
 
   @doc """
@@ -66,7 +66,7 @@ defmodule Slugger do
     |> handle_possessives
     |> replace_special_chars
     |> String.downcase
-    |> remove_unwanted_chars(separator, ~r/([^a-z0-9가-힣])+/)
+    |> remove_unwanted_chars(separator, ~r/([^a-z0-9가-힣])+/u)
   end
 
   @spec remove_unwanted_chars(text :: String.t, separator :: char, pattern :: Regex.t) :: String.t

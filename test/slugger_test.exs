@@ -21,14 +21,14 @@ defmodule SluggerTest do
   end
 
   test "removing space at ending and ending with korean chars" do
-    assert Slugger.slugify(" \n  \t \n ㅈㅓㅇㅅㅜㅇㅕㄴ for 정수연 \n  \t \n ") == "ㅈㅓㅇㅅㅜㅇㅕㄴ-for-정수연"
+    assert Slugger.slugify(" \n  \t \n 정수연 for 정수연 \n  \t \n ") == "정수연-for-정수연"
   end
 
   test "replace whitespace inside with seperator" do
     assert Slugger.slugify("   A B  C  ") == "A-B-C"
     assert Slugger.slugify("   A B  C  ", ?_) == "A_B_C"
   end
-  
+
   test "replace multiple seperator inside and outside" do
     assert Slugger.slugify("--a--b c - - - ") == "a-b-c"
   end
@@ -44,8 +44,12 @@ defmodule SluggerTest do
     assert Slugger.slugify("Sheep's Milk") == "Sheeps-Milk"
   end
 
+  test "removing unwanted unicode characters" do
+    assert Slugger.slugify("abc 😀") == "abc"
+  end
+
   #--- slugify_downcase()
-  
+
   test "string to lower" do
     assert Slugger.slugify_downcase("ABC") == "abc"
   end
@@ -69,6 +73,10 @@ defmodule SluggerTest do
 
   test "removing space between possessives lowercase" do
     assert Slugger.slugify_downcase("Sheep's Milk") == "sheeps-milk"
+  end
+
+  test "removing unwanted unicode characters lowercase" do
+    assert Slugger.slugify_downcase("abc 😀") == "abc"
   end
 
   #--- Naughty strings
