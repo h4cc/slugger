@@ -30,7 +30,7 @@ defmodule Slugger do
       iex> Slugger.slugify("Wikipedia Style", ?_)
       "Wikipedia_Style"
 
-      iex> Slugger.slugify("_Trimming_and___Removing_inside___")
+      iex> Slugger.slugify("Trimming-and-Removing-inside")
       "Trimming-and-Removing-inside"
 
   """
@@ -39,7 +39,7 @@ defmodule Slugger do
     text
     |> handle_possessives
     |> replace_special_chars
-    |> remove_unwanted_chars(separator, ~r/([^A-Za-z0-9가-힣])+/)
+    |> remove_unwanted_chars(separator, ~r/(?!_)([^A-Za-z0-9가-힣])+/)
   end
 
   @doc """

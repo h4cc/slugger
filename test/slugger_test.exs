@@ -12,6 +12,10 @@ defmodule SluggerTest do
     assert Slugger.slugify(" \t \n ABC") == "ABC"
   end
 
+  test "do not removes underscore" do
+    assert Slugger.slugify("Q_q-q") == "Q_q-q"
+  end
+
   test "removing space at ending" do
     assert Slugger.slugify("ABC \n  \t \n ") == "ABC"
   end
